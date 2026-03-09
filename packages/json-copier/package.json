@@ -2,8 +2,27 @@
 	"name": "@produck/json-copier",
 	"version": "1.0.0",
 	"description": "A utility to deep copy JSON-compatible values.",
+	"keywords": [
+		"json",
+		"copy",
+		"deep-copy",
+		"clone",
+		"deep-clone",
+		"immutable",
+		"utility",
+		"esm"
+	],
 	"license": "MIT",
 	"author": "ChaosLee",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/produck/json-copier.git",
+		"directory": "packages/json-copier"
+	},
+	"bugs": {
+		"url": "https://github.com/produck/json-copier/issues"
+	},
+	"homepage": "https://github.com/produck/json-copier#readme",
 	"publishConfig": {
 		"access": "public"
 	},
