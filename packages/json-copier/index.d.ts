@@ -22,6 +22,6 @@ type JsonValue = JsonPrimitive | JsonArray | JsonObject;
  * Deep copy a JSON-compatible value
  * @param value - The JSON-compatible value to copy
  * @returns A deep copy of the value
- * @throws {TypeError} If the value is not JSON-compatible
+ * @remarks The input is expected to be JSON-compatible.
  */
 export function copy(value: JsonValue): JsonValue;

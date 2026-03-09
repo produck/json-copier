@@ -1,21 +1,27 @@
+function isPrimitive(value) {
+	return value === null || typeof value !== 'object';
+}
+
 export function copy(value) {
-	if (value === null || typeof value === 'boolean' || typeof value === 'number' || typeof value === 'string') {
+	if (isPrimitive(value)) {
 		return value;
 	}
 
 	if (Array.isArray(value)) {
-		return value.map(item => copy(item));
-	}
+		const result = new Array(value.length);
 
-	if (typeof value === 'object') {
-		const result = {};
-
-		for (const key of Object.keys(value)) {
-			result[key] = copy(value[key]);
+		for (let index = 0; index < value.length; index += 1) {
+			result[index] = copy(value[index]);
 		}
 
 		return result;
 	}
 
-	throw new TypeError(`The value type "${typeof value}" is not JSON compatible.`);
+	const result = {};
+
+	for (const key in value) {
+		result[key] = copy(value[key]);
+	}
+
+	return result;
 }

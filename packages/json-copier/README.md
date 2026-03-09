@@ -1,6 +1,6 @@
 # @produck/json-copier
 
-A utility to deep copy JSON-compatible values.
+A tiny utility to deep copy JSON-compatible values.
 
 ## Installation
 
@@ -10,54 +10,58 @@ npm install @produck/json-copier
 
 ## Usage
 
-### `copy(value)`
-
-Deep copy a JSON-compatible value.
-
 ```javascript
-import { copy } from "@produck/json-copier";
+import { copy } from '@produck/json-copier';
 
-// Primitives are returned as-is
-copy(null);       // null
-copy(true);       // true
-copy(42);         // 42
-copy("hello");    // "hello"
+const value = {
+	name: 'demo',
+	items: [1, 2, { ok: true }],
+	meta: { count: 3 },
+};
 
-// Arrays are deeply copied
-const arr = [1, [2, 3], { a: 4 }];
-const arrCopy = copy(arr);
-arrCopy !== arr;          // true (different reference)
-arrCopy[1] !== arr[1];    // true (nested array is also copied)
+const cloned = copy(value);
 
-// Objects are deeply copied
-const obj = { a: 1, b: { c: 2 }, d: [3, 4] };
-const objCopy = copy(obj);
-objCopy !== obj;          // true (different reference)
-objCopy.b !== obj.b;      // true (nested object is also copied)
-
-// Non-JSON-compatible values throw a TypeError
-copy(undefined);          // TypeError
-copy(() => {});           // TypeError
-copy(Symbol("sym"));      // TypeError
+console.log(cloned); // same structure
+console.log(cloned === value); // false
+console.log(cloned.items === value.items); // false
+console.log(cloned.meta === value.meta); // false
 ```
 
 ## API
 
 ### `copy(value: JsonValue): JsonValue`
 
-Recursively deep copies the given JSON-compatible value.
+Deep copy a JSON-compatible value.
 
-**Parameters:**
+- Primitive values (`null`, `boolean`, `number`, `string`) are returned
+  as-is.
+- Arrays are copied recursively.
+- Objects are copied recursively.
 
-- `value` - Any JSON-compatible value: `null`, `boolean`, `number`, `string`, `Array`, or plain `Object`
+## Input Contract
 
-**Returns:**
+`copy` is designed for JSON-compatible input only.
 
-- A deep copy of the value. Primitives (`null`, `boolean`, `number`, `string`) are returned unchanged. Arrays and objects are recursively copied into new instances.
+- Supported input types: `null`, `boolean`, `number`, `string`, `Array`,
+  and plain JSON objects.
+- This package does **NOT** perform runtime validation for unsupported
+  types.
 
-**Throws:**
+## Where Valid JSON Objects Come From
 
-- `TypeError` if the value contains non-JSON-compatible types such as `undefined`, `function`, or `symbol`
+In practice, inputs passed to `copy` commonly come from one of these
+trusted sources:
+
+1. Fully validated runtime objects
+
+   Objects that have already gone through sufficient runtime checks
+   (for example, schema validation, guard functions, or strict data
+   sanitization) and are known to be JSON-compatible.
+
+2. Standard JSON-producing pipelines
+
+   Data produced by methods that return standard JSON objects, such as
+   `JSON.parse(...)` and processing chains built on top of its result.
 
 ## License
 
