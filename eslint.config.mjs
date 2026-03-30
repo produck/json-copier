@@ -8,7 +8,10 @@ export default [
 	},
 	{
 		languageOptions: {
-			globals: {},
+			globals: {
+				console: 'readonly',
+				structuredClone: 'readonly',
+			},
 		},
 	},
 	pluginJs.configs.recommended,
