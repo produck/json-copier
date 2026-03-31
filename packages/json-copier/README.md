@@ -63,6 +63,36 @@ trusted sources:
    Data produced by methods that return standard JSON objects, such as
    `JSON.parse(...)` and processing chains built on top of its result.
 
+## Undefined-but-Compatible Scenarios
+
+Because `copy` does **not** validate input at runtime, certain non-JSON
+values happen to produce usable results with the current implementation.
+These behaviors are **not** part of the public contract and may change
+without notice. They are documented here only for awareness.
+
+- **`undefined`** — Returned as-is.
+  `typeof` is not `"object"`, so it is treated as a primitive.
+
+- **`NaN` / `Infinity` / `-Infinity`** — Returned as-is.
+  `typeof` is `"number"`, so they pass the primitive check.
+
+- **`BigInt` value** — Returned as-is.
+  `typeof` is `"bigint"`, so it passes the primitive check.
+
+- **`function`** — Returned **by reference**.
+  `typeof` is `"function"`, so it passes the primitive check.
+
+- **`Symbol`** — Returned as-is.
+  `typeof` is `"symbol"`, so it passes the primitive check.
+
+- **Object with inherited enumerable properties** — Inherited properties
+  are **copied into the result** as own properties.
+  `for...in` traverses the entire prototype chain.
+
+> **Recommendation:** Do not rely on these behaviors. If your data may
+> contain non-JSON types, validate or transform it before passing it to
+> `copy`, or use `structuredClone` instead.
+
 ## Benchmark
 
 To compare performance with the native `structuredClone`, a benchmark was run
@@ -121,13 +151,14 @@ For pure JSON data, `copy` is significantly faster than `structuredClone`
 (about 10x in this scenario). If you only need to handle JSON-compatible values,
 this package is a lightweight and high-performance choice.
 
-> Note: [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)
-> is a built-in API that supports a much wider range of types, including
-> `Date`, `RegExp`, `Map`, `Set`, `ArrayBuffer`, `Blob`, and objects with
-> circular references. If your data includes any of these types,
-> `structuredClone` is the appropriate choice. This package is designed
-> exclusively for JSON-compatible data, where its simplicity and performance
-> are the primary advantages.
+> Note: [`structuredClone`][a0] is a built-in API that supports a much wider
+> range of types, including `Date`, `RegExp`, `Map`, `Set`, `ArrayBuffer`,
+> `Blob`, and objects with circular references. If your data includes any of
+> these types, `structuredClone` is the appropriate choice. This package is
+> designed exclusively for JSON-compatible data, where its simplicity and
+> performance are the primary advantages.
+
+[a0]: https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
 
 ## License
 
