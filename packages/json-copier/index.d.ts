@@ -24,4 +24,4 @@ type JsonValue = JsonPrimitive | JsonArray | JsonObject;
  * @returns A deep copy of the value
  * @remarks The input is expected to be JSON-compatible.
  */
-export function copy(value: JsonValue): JsonValue;
+export function copy<T extends JsonValue>(value: T): T;
