@@ -1,9 +1,9 @@
 {
-	"compilerOptions": {
-		"allowJs": true,
-		"noEmit": true,
-		"lib": [
-			"ESNext"
-		]
-	}
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": [
+      "ESNext"
+    ],
+    "noEmit": true
+  }
 }

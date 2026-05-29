@@ -11,12 +11,12 @@ npm install @produck/json-copier
 ## Usage
 
 ```javascript
-import { copy } from "@produck/json-copier";
+import { copy } from '@produck/json-copier';
 
 const value = {
-	name: "demo",
-	items: [1, 2, { ok: true }],
-	meta: { count: 3 },
+  name: 'demo',
+  items: [1, 2, { ok: true }],
+  meta: { count: 3 },
 };
 
 const cloned = copy(value);
@@ -139,7 +139,7 @@ console.timeEnd('structuredClone');
 
 **Result (Node.js 18+, Windows):**
 
-```
+```text
 Benchmark: copy vs structuredClone
 copy: ~857ms
 structuredClone: ~9.5s
