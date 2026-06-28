@@ -159,3 +159,6 @@ vite.config.ts.timestamp-*
 .yarn/install-state.gz
 *.gen*
 publish-assets/
+
+# produck:org-baseline
+!.github/
